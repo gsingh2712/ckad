@@ -1,0 +1,6 @@
+Validating Admission Controllers :- Used for validation purposes ( a check that particular action on k8s resource object request is correct )
+Mutating Admission Controllers :- Which modifes k8s object requests yaml runtime  
+
+Mutating precedes Validating 
+
+

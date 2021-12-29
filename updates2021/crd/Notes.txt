@@ -1,0 +1,64 @@
+Every k8s resource has a controller , to watch the status of the k8s resource.
+A custom k8s object is represented by CRD 
+
+You need to register the CRD with k8s before performing kubecli actions (create, delete etc..)  on it.
+
+https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/
+
+An Example of registering a custom k8s object ,
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: flighttickets.flights.com
+spec:
+
+  # either Namespaced or Cluster
+  scope: Namespaced
+  
+  # group name to use for REST API: /apis/<group>/<version>
+  group: flighttickets.flights.com 
+
+  names:
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: FlightTicket
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: flighttickets
+    # singular name to be used as an alias on the CLI and for display
+    singular: flightticket
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+    - ft
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:         // Tell flightticket k8s object must give from ,to , number parameters
+                from:
+                  type: string
+                to:
+                  type: string
+                number:
+                  type: integer
+
+----------------------------------------
+kubectl create -f flight.yaml
+
+apiVersion: flights.com/v1
+kind: FlightTicket
+metadata:
+  name: my-flight-ticket
+spec:
+ from: Mumbai
+ to: London
+ number: 2

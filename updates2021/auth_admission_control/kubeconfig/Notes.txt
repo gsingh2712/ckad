@@ -1,0 +1,64 @@
+Format of KubeConfig File
+--> Clusters
+   1. diferent Clusters like ProdCluster , Development Cluster
+--> Contexts
+   --> Marry Users to Cluster.
+   --> Which account is for which user.
+--> Users 
+    1. User Accounts with which you access these clusters
+        --> it could be admin user , dev user or prod user
+
+
+current-context :- Points to the context 
+
+How to change context to use a user with a cluster 
+--> HINT there will be a context in config that will map an user to given cluster 
+Ans:- 
+kubectl config use-context <user>@<cluster>  // This will change the current context to use context with mapping of user and cluster
+
+
+
+KubeConfig File location $HOME/.kube/config
+
+Commands 
+
+kubectl config view  // Lists KubeConfig
+kubectl config view --kubeconfig=<path_to_custom_config>> // Update the kube config
+kubectl config use-contest <contextName>  // To set curent context to <contextName> and access that cluster 
+kubectl config -h // check this
+
+------------------------------------------------------------------------------
+
+You can configure context to use specific namespace as well, check example below
+
+....
+contexts:
+- name: admin@prod
+  context:
+    cluster: production
+    user: admin
+    namespace: <..>
+....
+....
+
+Certificates in KubeConfig
+
+....
+users:
+- name: admin
+  user:
+    client-certificate: <full_path_to_certificate>
+    client-key: <full_path_to_key>
+....
+
+-------------------------------------------------------------------------------
+
+you can mention certificate authority using 'certificate-authority' with path to certificate 
+OR as 'client-certificate-data' which is base64 encoded  certificate value ( cat ca.crt | base64 )
+
+how to decode certificate ==> echo "base64 encoded certificate" | base64 --decode
+
+
+
+
+

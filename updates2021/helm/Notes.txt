@@ -1,0 +1,58 @@
+Used for Yaml management for a big project
+
+sudo snap install helm --classic  // IfLinux snap utility
+
+OR
+
+https://helm.sh/docs/intro/install/#from-apt-debianubuntu
+
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+sudo apt-get install apt-transport-https --yes
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+
+pkg install helm // pkg utility in RHEL 
+
+brew install helm // Mac OS
+
+
+how to find os details
+
+cat /etc/*release*
+
+helm help 
+
+helm env  // get Client Platform info
+charts , atrifacthub.io ,
+
+You can search charts  on web interface or you can use helm search cli
+
+helm search hub wordpress
+
+helm repo add bitnami htpps:/charts.bitnami.com/bitnami
+
+helm search repo wordpres // searching wordpress package in the repos
+Name Chart version APP DESCRIPTION
+bitnami/wordpress 12.1.14  5.8.1 Web publishing platform ...
+
+helm repo list
+
+helm install [release-name] [chart-name] 
+helm install release-1 bitnami/wordpress
+helm install release-2 bitnami/wordpress
+
+helm list
+NAME       NAMESPACE       REVISION    UPDATED       STATUS     CHART              APP VERSION
+my-rel     default         1           ....          deployed   wordpress-11.0.12  5.7.2
+
+helm unsintall my-rel
+
+helm pull --untar bitnami/wordpress  // charts are downloaded in a tar archive format 
+
+ls wordpress
+Chart.lock    README.md   ci   values.schema.json
+Chart.yaml    charts      templates    values.yaml
+
+helm install release-4 ./wordpress  // path to chart direcotory 
+

@@ -1,0 +1,13 @@
+How to cotrol access to api-server
+ -> who can access (authentication)
+     --> Username Password/Tokens in static files
+     --> Certificates
+     --> External Authentication Provider like ldap
+ -> what he can do (authorization)
+	-> RBAC (Role)
+        -> ABAC (Attribute)
+        -> Node Authorization
+        -> Webhook mode
+
+
+

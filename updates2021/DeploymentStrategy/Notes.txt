@@ -1,0 +1,44 @@
+Deployment Strategy:
+
+* Recreate:
+ Works by destroying all old versions and then creating all newer version of instances
+ Problem this makes application unavailable for sometime.
+
+* RollingUpdate:
+  Bring down older version and Bring up newer version one by one
+
+Some Deployment Stratgies cannot be specified as an option but can be implemented
+They Blue Green and Canary Updates
+
+Blue Green Deployment
+Older Version is blue Deployment  and Newer Version is green Deployment.
+And When all tests are passed switch traffice to Newer Version Green.
+It is best implemented via service mesh (istio)
+This can be acheived via label on pods and selector on service
+switch the selector on service to the value that label takes on pods in Green Deployment
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    version:green  // This is the version on pods for green deployment   
+ 
+
+Canary Updates
+Deploy a  new version and route a % of traffic to it and if tests pass and no issues are observed, we upgarde to newer deployment with
+newer version of application using RollingUpdate strategy 
+
+How to implement , 
+Route traffic from k8s service 
+
+To older pods and newer pofs  via Label selector , both these pods should have one common label 
+while other labels could be deployment specific 
+
+To regulate the traffic %  reduce the number of pods in Canary deployment ??
+kubectl scale deploy --repicas=x <deployment_name>
+ServiceMesh istio gives better features to regulate the traffic based on % and route
+
+
+ 

@@ -1,3 +1,7 @@
+https://www.youtube.com/watch?v=knyJt8d6C_8  --> vim short cuts
+
+KUBE_EDITOR=vim kubectl edit deploy  <deployment_name>
+
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands  --> 
 To check for imperative commands 
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose  Exposing 
@@ -6,15 +10,20 @@ https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-imag
 
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run  --> run command 
 
+https://kubernetes.io/docs/tasks/   https://kubernetes.io/docs/concepts/   check following  for revision and browsing so you know where to look for
+
 Kubect create -f .  ## Runs all the yamls in current directory 
 kubectl get all     ## all the objects in Default namespace
 
 Imperatively modify service attached to a deployment
 
-kubectl expose deployment smiple-webapp-deployment --name=webapp-service --target-port=8080 
---type=NodePort --port=8080 --dry-run=client -o yaml > svc.yaml 
-## Exposing a deployment via creating a service
 
+
+
+kubectl expose deployment smiple-webapp-deployment --name=webapp-service --target-port=8081
+--type=NodePort --port=8080 --dry-run=client -o yaml > svc.yaml 
+## Exposing a deployment via creatinig a service  webapp-service 
+## service port is 8080 , and target port on container is 8081
 then open svc.yaml to add "nodePort"
 
 kubectl create deployment <name> --image=<image-name> --dry-run=client -o yaml 
@@ -22,10 +31,15 @@ kubectl scale --replicas=<#> deployment <deployment-name>  --dry-run=client -o y
 kubectl create deployment nginx --image=nginx --replicas=4  --dry-run=client -o yaml  ## 
 
 
+kubectl config set-context <cluster name>  --namespace=<name>
+
 kubectl run nginx --image=nginx  -l <label_name>=<label_value> --dry-run=client -o yaml    ## 
 kubectl run nginx --image=nginx  --labels=<label_name>=<label_value> --dry-run=client -o yaml
 
 kubectl explain pods --recursive | less   ## to browse the detailed yaml syntax of pods 
+
+kubectl explain pods.spec.containers --recursive   // To just get yaml syntax of on section of attribute
+
 
 kubectl explain pods --recursive | grep -A<n> <regexPattern> ##  To print <n> lines after <regexPattern>
 
@@ -98,3 +112,40 @@ kubectl expose deployment frontend --type=NodePort --name=frontend-service --por
 kubectl set serviceaccount deployment frontend myuser
 kubectl create service clusterip my-cs --tcp=5678:8080 --dry-run -o yaml
 --> 
+
+Authorization Related (Roles and Bindings)
+
+Modes are set using authorization mode option in Kube ApiServer 
+--authorization-mode=Node,RBAC,Webhook // SEQUENCE ALSO REFLECTS ORDER OF APPLICATION of MODES
+
+These settings are available in kube-apiserver pods 
+
+kubectl describe pod kube-apiserver-controlplane -n kube-system  // Check authorization-mode parameter
+kubectl describe role <role-name>  -n <namespace>  
+kubectl get rolebindings --all-namespaces --no-headers
+kubectl create role developer --namespace=default --verb=list,create,delete --resource=pods  --dry-run=client -o yaml > role.yaml
+
+How to  Create tls Secret in a namespace
+
+kubectl -n <namespace> create secret tls <tls secret name> --cert "/root/keys/webhook-server-tls.crt" --key "/root/keys/webhook-server-tls.key"
+
+-------
+
+kubectl api-resources  //  it will help to get short names for api-resources
+
+1.22.2 -> Major version 1 , Minor 22 , patch 2
+
+---------
+Read ApiVersion deprecation policy 
+
+kubectl-convert   // how to convert older yaml using previous apiVersion to the ones using new Apiversion
+                  // requires special plugins installation 
+
+kubectl-convert -f <old_file>.yaml --output-version <new-api-version>  
+kubectl-convert -f <old_file>.yaml --output-version apps/v1
+
+
+
+
+
+

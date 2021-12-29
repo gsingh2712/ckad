@@ -1,0 +1,7 @@
+Customs CRDs and their corresponding Controller Code in Golang
+can be packaged together and deployed as a single Entity Called 'Operator Framework'
+
+
+k8s operator are like a human operator and it is used to automate and streamline a domain specific knowledge / tasks performed by human.
+
+Most operators come with extra features like BackUp and Restore 

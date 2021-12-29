@@ -1,0 +1,35 @@
+Kube api is grouped into multiple groups like metrics , version , logs 
+
+api :-  https://<apiserver endpoint>/api/v1/pods .. etc
+health-api :-  https://<apiserver endpoint>/healthz
+version :-  https://<apiserver endpoint>/version
+apis :-  https://<apiserver endpoint>/apis
+
+/api  (core group) and /apis  (named group) are core functionalities
+
+/api --> /v1 --> /namespaces
+                 /services
+                 /pods
+                 /secrets
+
+named groups more organised and newer features will be available here , its groups under it for apps , extensions , networking
+
+
+/apis --> /apps               --> /v1    --> /deployments
+                                         --> /replicasets   
+                                         --> /statefulsets
+      --> /extensions
+      --> /networking.k8s.io  --> /v1  --> /networkpolicies
+      --> /storage.k8s.io
+      --> .... 
+
+apps , networking.k8s.io, storage.k8s.io, rbac.authorization.k8s.io --> these constitute resource groups while  deployments , replicasets, statefulsets  constitute resources under these api groups
+
+
+Run 'kubectl proxy' before running below commands (it runs at localhost:8001) , it opens a proxy to apiserver using kubeconfig 
+
+curl http://<kube_proxy> -k                      // Gives available api groups                   
+curl http://<kube_proxy>/apis -k | grep "name"   // Gives resource groups
+
+Kubectl proxy != kube proxy (it is a k8s networking construct for opening proxy across nodes , services and pods )
+

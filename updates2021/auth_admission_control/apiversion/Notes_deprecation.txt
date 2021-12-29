@@ -1,0 +1,20 @@
+Policy Rules
+
+Api elements(k8s object) added in any version can only be deprecated from next higher released version
+if /course is k8s obj in /v1alpha (version) in apigrp /kotekloud.com , it can be deleted in next /v1alpha2 (version)
+
+Api Objects must be able to round-trip between API versions in a given release without information
+loss, with the exception of whole REST resources  that do not exist in some versions.
+
+Other than the most recent API version in each track, older API versions must be supported
+after their announcements deprecation for a duration of no less than:
+-> GA: 12 months or 3 k8s release version  (whichever is longer)
+-> Beta: 9 months or 3 k8s release version (whichever is longer)
+-> Alpha: 0 releases.
+
+"Preferred" API vesion (means version used for storage in etcd) for a given group may not advance until after a k8s release has been 
+made that supports both new version and the previous version.
+
+A GA API version in a given track may not be deprecated until a new GA API version at least as stable is released.
+
+
