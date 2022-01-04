@@ -1,0 +1,39 @@
+kubectl  run pod --image=nginx --namespace=default --port=8081 --env MESSAGE=hello  --command "echo" "Hello"   -l env=test  --dry-run=client -o yaml
+
+VVIMP , command: field in Pod yaml overrites ENTRYPOINT defined in docker file
+
+^^ This creates following yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    env: test
+  name: pod
+  namespace: default
+spec:
+  containers:
+  - command:
+    - echo     // Edit these to string "echo""
+    - Hello   // Edit this to string "Hello"
+    env:
+    - name: MESSAGE
+      value: hello
+    image: nginx
+    name: pod
+    ports:
+    - containerPort: 8081
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+
+You can edit and split command to include args  and make it more redable , The above format also works. 
+.....
+....
+- command:
+  - "echo"
+  args:
+  - "Hello"

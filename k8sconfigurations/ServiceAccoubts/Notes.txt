@@ -43,6 +43,7 @@ spec:
     metadata:
       name: ...
     spec:
+      automountServiceAccountToken: false
       serviceAccountName: <accountname>  ####
       ...
 

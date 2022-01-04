@@ -40,8 +40,21 @@ spec:
 Imperative Way to create configMap
 
 kubectl create configmap <config-name>  --from-literal=<key>=<value> --from-literal=<key2>=<value2> 
+kubectl create configmap <config-name>  --from-literal=APP_COLOR=blue --from-literal=APP_MOD=prod 
 OR
 kubectl create configmap <config-name>  --from-file=<path_to_file_containing_key_value_pairs>
+
+
+kubectl create cm test-config --from-literal=ENV=prod --from-literal=LEVEL=veteran  --dry-run=client -o yaml
+apiVersion: v1
+data:
+  ENV: prod
+  LEVEL: veteran
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: test-config
+
 
 --------------
 
@@ -73,7 +86,7 @@ spec:
     - containerPort: 8080
    envFrom:
     - configMapRef:
-        name: app_config
+        name: <config_map_name>
 
 
 -------------------------------------------------------------------

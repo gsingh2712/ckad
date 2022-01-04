@@ -45,6 +45,9 @@ kubectl explain pods --recursive | grep -A<n> <regexPattern> ##  To print <n> li
 
 
 kubect get pods,svc,...  --all-namespaces
+kubect get pods,svc,...  -o wide  // Gives more Tabular information  data 
+kubect get pods,svc,...  -o name  // Just prints name
+kubect get pods,svc,...  --all-namespaces
 
 kubectl get all --all-namespaces  ## To get all the resources 
 

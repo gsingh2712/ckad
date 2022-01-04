@@ -38,9 +38,9 @@ spec:
 -------------------------------------
 
 
-CPU -> 0.5 cpu , Mem -> 256 Mi ( as mebibytes)  , Disk 
-0.1 cpu --> 100m (m stands for milli)  lowest value allowed 1m 
-1 cpu --> 1 vcpu = 1 AWS vcpu = 1 GCP core = 1 Azure Core 
+CPU -> 0.5 cpu , Mem -> 256 Mi ( as mebibytes)  is default assumption by K8s for a container in pod   
+0.1 cpu --> 100m (m stands for milli)  lowest value allowed 1m or like 0.001 cpu
+1 cpu --> 1 vcpu = 1 AWS vcpu = 1 GCP core = 1 Azure Core = 1000m
 
 
 
@@ -55,6 +55,8 @@ Either specify in Mi / M  or actual Memory like  268435456
 
 resource  has requests and limits section , and it to PodSection 
 
+
+VIMP
 in case of CPU limit is binding  and container is not allowed to throttle 
 but IN CASE OF MEMORY IT IS NOT BINDING , BUT IF IT HAPPENS CONSTANTLY PODS ARE TERMINATED   
 

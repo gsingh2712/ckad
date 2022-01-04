@@ -54,4 +54,3 @@ EXPOSE 8000
 WORKDIR /opt
 ENTRYPOINT ["python","app.py"]
 CMD ["--color", "red"]
-

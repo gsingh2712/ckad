@@ -2,13 +2,19 @@
 // command ps aux -->  All the processes running 
 
 Docker by default runs the processes as root user within  the container AS WELL AS  THE HOST 
+
+Docker containers are isolated using namespaces in Linux ,
+Host has a namespace and container has a namespace.
   
-Docker can only see process running inside it 
+Docker can only see process running inside it because it is running in its own namespace
+
+While the host sees the process and docker process in namespace just as another process 
+
 
 You can specfiy proccess to run as different user by specifying the userid  
 docker run --user=1000 ubuntu sleep 3600 
 
-OR Do the Above in DockerFile
+OR Do the Below in DockerFile
 FROM ubuntu 
 USER 1000 
 
@@ -21,7 +27,8 @@ as the root user in the host ? Can proccess inside the container can do anything
 host system ?
 
 Docker implements security features that limit the capablites of root user within the container, like 
-BROADCAST, NET_ADMIN , SYS_ADMIN , MAC_ADMIN ... etc 
+BROADCAST, NET_ADMIN , SYS_ADMIN , MAC_ADMIN ... etc , so the root user in the container is not same
+as root user on the Host.
 
 You can  use " cap-add / cap-drop " options add privileges to root user in container 
 

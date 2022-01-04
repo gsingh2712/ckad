@@ -4,7 +4,7 @@ Add privileges to docker root user can be configured via K8s as well
 these can be configured as contianer as well as pod level 
 if configured at both container settings override the pods 
 
-kubectl exec ubuntu-sleeper<pod_name> -- whoami  // to check what is user is running containers
+kubectl exec ubuntu-sleeper<pod_name> -i -t  -- whoami  // to check what is user is running containers
 
 The above is done securityContext in yaml file 
 -------- below  is at Pod Level 
