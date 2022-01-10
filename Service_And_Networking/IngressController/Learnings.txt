@@ -1,4 +1,30 @@
 
+kubectl create ingress -h // Some Cool imperative commands
+# Create a single ingress called 'simple' that directs requests to foo.com/bar to svc
+# svc1:8080 with a tls secret "my-cert"
+
+kubectl create ingress simple --rule="foo.com/bar=svc1:8080,tls=my-cert"
+
+# Create an ingress with the same host and multiple paths
+ kubectl create ingress multipath --class=default \
+ --rule="foo.com/=svc:port" \
+--rule="foo.com/admin/=svcadmin:portadmin"
+  
+# Create an ingress with multiple hosts and the pathType as Prefix
+ kubectl create ingress ingress1 --class=default \
+--rule="foo.com/path*=svc:8080" \
+--rule="bar.com/admin*=svc2:http"
+
+# Create an ingress with TLS enabled using a specific secret and pathType as Prefix
+kubectl create ingress ingsecret --class=default \
+--rule="foo.com/*=svc:8080,tls=secret1"
+
+// ALWAYS ADD THESE ANNOTATIONS IN INGRESS YAML
+annotations:
+   nginx.ingress.kubernetes.io/rewrite-target: /
+   nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+
 
 kubectl edit ingress --namespace app-space <ingress-resource>
 

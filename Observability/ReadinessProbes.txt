@@ -1,7 +1,7 @@
 Pod Conditions
 
 they complement Pod Status 
-It is an Array of true/false Values that tells state of Pods
+It is an Array of true/false Values wrt to the condition  of Pods
 
 Some Pod Conditions --> PodScheduled , Initialized, ContainersReady, Ready
 

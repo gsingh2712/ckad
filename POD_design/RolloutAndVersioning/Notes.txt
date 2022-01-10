@@ -8,14 +8,14 @@ To update a deployment :-
 kubectl apply -f deployment-defintion.yaml 
 
 
-kubectl set image deployment/<deployment_name> <image_old>=<image_new> // This creates deployment with new config
+kubectl set image deployment/<deployment_name> <container_name>=<image_new> // This creates deployment with new config
 
-kubectl rollout status deployment/<deployment_name>  // Gives status of rollouts
+kubectl rollout status deployment/<deployment_name>    // Gives status / information of recent rollout 
 
-// To se revisions and history of rollouts 
+// To see revisions and history of rollouts 
 
+// IMP
 kubectl rollout history deployment/<deployment_name>   // Gives out the revisions and history of deployments
-
 
 
 There are 2 types of deployment strategies

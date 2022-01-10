@@ -1,0 +1,11 @@
+vim ~/.vimrc
+set nu
+set expandtab
+set shiftwidth=2
+set tabstop=2
+
+
+https://github.com/lucassha/CKAD-resources
+
+
+

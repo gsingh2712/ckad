@@ -5,6 +5,8 @@ NodeAffinity provides advanced capabiliies to limit Pod Placement on Specific No
 
 Below is example of NodeAffinity to Place pods on Large Nodes as shown in nodeSelector
 
+kubectl explain pods.spec.affinity --recursive  
+
 apiVersion: 
 kind: Pod
 metadata:
@@ -38,6 +40,21 @@ The type of NodeAffinity affects the Scheduler behavior
 3. requiredDuringDchedulingRequiredDuringExecution 
     --> Will be added in Future  both required means pod will be evicted 
 
+Example affinity to check for specific reserved label
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+
+
 required is like compulsory Node Qualification and preferred is like try best fit Node 
 Ignored is like it wont afffect Pods once they are schedduled and lables on Nodes are changed
+
+
+
+
 

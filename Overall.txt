@@ -32,6 +32,7 @@ kubectl create deployment nginx --image=nginx --replicas=4  --dry-run=client -o 
 
 
 kubectl config set-context <cluster name>  --namespace=<name>
+kubectl config set-current --current  --namespace=<name>
 
 kubectl run nginx --image=nginx  -l <label_name>=<label_value> --dry-run=client -o yaml    ## 
 kubectl run nginx --image=nginx  --labels=<label_name>=<label_value> --dry-run=client -o yaml
@@ -107,6 +108,33 @@ kubectl run nginx -image=nginx --restart=Never --port=80 --namespace=myname
 --dry-run=client -o yaml - /bin/sh -c 'echo hello world' > generate.yml
 
 
+// INGRESS imperative command examples 
+
+kubectl create ingress -h // Some Cool imperative commands
+# Create a single ingress called 'simple' that directs requests to foo.com/bar to svc
+# svc1:8080 with a tls secret "my-cert"
+
+kubectl create ingress simple --rule="foo.com/bar=svc1:8080,tls=my-cert"
+
+# Create an ingress with the same host and multiple paths
+ kubectl create ingress multipath --class=default \
+ --rule="foo.com/=svc:port" \
+--rule="foo.com/admin/=svcadmin:portadmin"
+  
+# Create an ingress with multiple hosts and the pathType as Prefix
+ kubectl create ingress ingress1 --class=default \
+--rule="foo.com/path*=svc:8080" \
+--rule="bar.com/admin*=svc2:http"
+
+
+// ALWAYS ADD THESE ANNOTATIONS IN INGRESS YAML
+annotations:
+   nginx.ingress.kubernetes.io/rewrite-target: /
+   nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+
+
+
 --> Crearting a deployment
 kubectl run frontend --replicas=2 --labels=run=load-balancer-example --image=busybox  --port=8080
 --> Exposing the deployment as NodePort Service called "frontend-service"
@@ -146,9 +174,3 @@ kubectl-convert   // how to convert older yaml using previous apiVersion to the 
 
 kubectl-convert -f <old_file>.yaml --output-version <new-api-version>  
 kubectl-convert -f <old_file>.yaml --output-version apps/v1
-
-
-
-
-
-

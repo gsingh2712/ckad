@@ -12,6 +12,12 @@ scheduler since it can be tolerant to other nodes as well .
 
 TAINTS are set on Nodes and Tolerations are set on Pods.
 
+To allow only certain pods on a node , we first taint the node and then add toleration on the specific pod,
+although it doesn't garauntee a toleration pod scheduling on the node with Taint, since it could be scheduled 
+on node with no taint as well.
+
+IF YOU WANT CERTAIN PODS TO RESTRICT TO CERTAIN NODE use NODE AFINNITY
+
 Application pods are  not scheduled on master node becuase of taint
 
 kubectl describe node kubemaster | grep Taint 
@@ -46,10 +52,7 @@ spec:
   - name: nginx
     image: nginx
   tolerations:  ## Double quotes are compulsory 
-  - key: "app" 
+  - key: "app"
     operator: "Equal"   ## It can take values like Equal or Exists 
-    value: "blue" 
-    effect: "NoSchedule" 
-
-
-
+    value: "blue"
+    effect: "NoSchedule"

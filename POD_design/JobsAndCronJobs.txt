@@ -1,3 +1,17 @@
+
+https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules  --> Cron Job Format
+
+kubectl create cronjob --help
+
+# Create a cron job
+kubectl create cronjob my-job --image=busybox --schedule="*/1 * * * *"
+  
+# Create a cron job with a command
+kubectl create cronjob my-job --image=busybox --schedule="*/1 * * * *" -- date
+
+kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' -- [COMMAND] [args...]  
+
+
 Default behavoir of a pod is to always keep running
 You can set --> restartPolicy: Never
 
@@ -40,6 +54,10 @@ kubectl logs <pod_name>
 
 kubectl delete job <job_name>
 
+COMPLETION in JOB/CRONJOB SPEC TELLS HOW MANY  CONTINER RUN HAS TO BE SUCCESSFULL TO  CONSTITUTE JOB IS SUCCESSFUL
+PARALLELISM in JOB/CRONJOB SPEC TELLS HOW MANY  CONTINER RUN CAN RUN PARALLELY AT A TIME
+BACKOFFLIMIT TELLS TILL HOM MANY RETRIES OF CONTAINER RUNS WILL BE TOLERATED BEFORE JOB is MARKED FAIL 
+
 JOB defintion FILE // THIS is for JOB BACKED BY MULTIPLE PODS  
 
 apiVersion: batch/v1
@@ -47,7 +65,7 @@ kind: Job
 metadata:
   name: math-add-job 
 spec:
-  completions: 3  // this denotes the number of times sucsseful job retry should happen  
+  completions: 3  // this denotes the number of times sucsseful container retry should happen to consider job is complete  
   parallelism: 3 // This is optional setting allows all 3  pods to come up simultaneosuly 
   template:
     spec:
@@ -71,7 +89,7 @@ spec:
   schedule: "*/1 * * * *"
   jobTemplate:
     spec:
-      completions: 3  // this denotes the number of times sucsseful job retry should happen  
+      completions: 3  // this denotes the number of times successfull container retry should happen to consider job successfull 
       parallelism: 3 // This is optional setting allows all 3  pods to come up simultaneosuly 
       backOffLimit: 15  ## (optional) to specify the number of retries before considering a Job as failed.
       template:
@@ -90,9 +108,9 @@ How many attempts did it take to complete a Job?
 
 Run the command 'kubectl describe job throw-dice-job' and add Succeeded and Failed counts.
 
-kubectl create job <job-name> --image <image_name> --dry-run=client -o yaml > job.yaml 
+kubectl create job <job-name> --image=<image_name> --dry-run=client -o yaml > job.yaml 
 
-kubectl create cronjob <name> --image <image_name> --schedule "30 21 * * *  "  --dry-run=client -o yaml > job.yaml 
+kubectl create cronjob <name> --image=<image_name> --schedule="30 21 * * *  "  --dry-run=client -o yaml > job.yaml 
 
 watch "kubectl get job " --> to watch the Jobs 
 

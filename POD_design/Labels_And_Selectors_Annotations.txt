@@ -7,6 +7,22 @@ labels:
   app: App1
   function: front-end
 
+# Update pod 'foo' with the label 'unhealthy' and the value 'true'
+
+kubectl label pods foo unhealthy=true     // VVIMP adding label  
+  
+# Update pod 'foo' with the label 'status' and the value 'unhealthy', overwriting any existing value
+
+kubectl label --overwrite pods foo status=unhealthy   // VVIMP updating label
+
+
+# Update pod 'foo' by removing a label named 'bar' if it exists
+# Does not require the --overwrite flag
+
+kubectl label pods foo bar-   //  VVIMP deleting label
+
+---------------------------------------------------
+
 How to Use selectors
 
 kubectl get pods --selector <key1>=<value1>,<key2>=<value2>
@@ -15,7 +31,11 @@ kubectl get all --selector env=prod --no-headers  | wc -l
 
 kubectl get pods --selector env=prod,bu=finance,tier=frontend 
 
+kubectl get all --selector env=prod
+---------------------------------------------
+
 kubernetes uses lables and selectors internally to connect different objects like ReplicaSet
+
 
 apiVersion: v1
 kind: ReplicationController
