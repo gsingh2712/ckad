@@ -31,7 +31,7 @@ values
 - Medium
 - Small
 
-operator can take other Values like "NotIn"  / "Exists" 
+operator can take other Values like "NotIn"  / "Exists"   --> VVIMP
 
 The type of NodeAffinity affects the Scheduler behavior 
 

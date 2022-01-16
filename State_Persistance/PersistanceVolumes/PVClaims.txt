@@ -4,20 +4,21 @@ PVC are done to make the storage got from PV  available to a  node
 
 administrator creates a set of PVs and customers create PVCs 
 
-There is one to one mapping between claim and volume 
+There is one to one mapping between claim and volume --> Even if the PV has sufficient extra space left , remaining space cannot be claimed by another PVC
+^^ VVIMP  --> Reason since PVC are namespaced scope objects
 
 Every PVC is bound to a single PV , k8s tries to find a PV that has sufficient capacity 
-as requested by the claim 
+as requested by the claim --> VVIMP
 
 If there are multiple possible Claims to PVs , then you can use labels and selectors to 
-bind to a right volume 
+bind to the exact PV  --> VVIMP
 
 When PVC is deleted what happens to underlying PV can be configured
-by default it is Reatin , or it can be set to Delete or Recycled 
+by default it is Retain , or it can be set to Delete or Recycled
 
-Recycled -> scrub of prev data and make PV available again 
+Recycled -> scrub of prev data and make PV available again
 
-persistantVolumeclaimPolicy: Retain 
+persistantVolumeclaimPolicy: Retain
 
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -28,6 +29,28 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 500Mi 
+      storage: 500Mi
 
-  kubectl get persistantvolumeclaim 
+
+---------------------------------------------------
+Example for referencing --> volumeMounts , volumes and persistanct volume claims
+Same pattern is used in case for Deployments and Replicasets
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: myfrontend
+      image: nginx
+      volumeMounts:
+      - mountPath: "/var/www/html"
+        name: mypd
+  volumes:
+    - name: mypd
+      persistentVolumeClaim:
+        claimName: myclaim
+
+
+kubectl get persistantvolumeclaim

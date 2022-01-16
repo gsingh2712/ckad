@@ -1,7 +1,7 @@
 To Persist Data Processed by Containers we attach a volume to Containers,
-So Data is Persisted even if Pod is ephemeral 
+So Data is Persisted even if Pod is ephemeral
 
-Volume and Mounts 
+Volume and Mounts
 
 A Volume can be configured in different ways , like a directory on the host (host here is node )
 Once a volume is created we mount the volume to a directory inside the container using volumeMounts

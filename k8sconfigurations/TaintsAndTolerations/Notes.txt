@@ -41,7 +41,7 @@ How to add Tolerations to Pod ?
 It is added in spec section of Pod defintion
 Notice Double quotes is compulsory 
 
-operator can take values like Equal Or Exists (Please verify )
+operator can take values like Equal Or Exists (Please verify )  --> VVIMP
 
 apiVersion: v1
 kind: Pod

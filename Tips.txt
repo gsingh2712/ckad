@@ -7,5 +7,34 @@ set tabstop=2
 
 https://github.com/lucassha/CKAD-resources
 
+Read PV , PVC and Volume .. , read specs and yaml
 
+Read Taints and Tolerations , mainly spec part 
 
+Docker commands --> revise , specially the Entrypoint and Commands section
+
+Revise CronJob and Job part again --> POD_design/JobsAndCronJobs.txt
+
+A schedule is described using the unix-cron string format (* * * * *), which is a set of five values in a line, indicating when the job should be executed.
+
+* * * * * = min hr day_of_month month day_of_week
+
+Every min				* * * * *
+Every Saturday at 23:45 (11:45 PM)	45 23 * * 6
+Every Monday at 09:00			0 9 * * 1
+
+Minute			0-59
+Hour			0-23
+Day of the month	1-31
+Month			1-12
+Day of the week		0-6 (Sunday to Saturday)
+
+* */2 * * *    -> Every Two Hr
+* * *  * */3   -> Every Day of the week
+* * */7 * *    -> Every 7 Day of the month
+
+@yearly (or @annually)	 Run once a year at midnight of 1 January	                0 0 1 1 *
+@monthly	         Run once a month at midnight of the first day of the month	0 0 1 * *
+@weekly	Run once a week  at midnight on Sunday morning	                                0 0 * * 0
+@daily (or @midnight)	 Run once a day at midnight	                                0 0 * * *
+@hourly	                 Run once an hour at the beginning of the hour 	                0 * * * *

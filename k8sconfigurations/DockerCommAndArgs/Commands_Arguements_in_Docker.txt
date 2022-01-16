@@ -6,7 +6,7 @@ docker ps --> running containers and their images
 Containers exits when the task is complete and only lives as long as the process inside it alive 
 
 CMD is mostly used to define the default command to execute when a container is run
-This CMD can be overwritten by commandline arguement given to docker run 
+This CMD can be overwritten by commandline arguement given to docker run
 CMD ["<program_name>"]  --> Tells which program that needs to run inside the container
 Ex :- CMD["nignx"]  , CMD["mysqld"]
 

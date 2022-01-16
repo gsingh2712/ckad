@@ -34,14 +34,20 @@ kubectl create deployment nginx --image=nginx --replicas=4  --dry-run=client -o 
 kubectl config set-context <cluster name>  --namespace=<name>
 kubectl config set-current --current  --namespace=<name>
 
+Labels
+
 kubectl run nginx --image=nginx  -l <label_name>=<label_value> --dry-run=client -o yaml    ## 
-kubectl run nginx --image=nginx  --labels=<label_name>=<label_value> --dry-run=client -o yaml
+kubectl run nginx --image=nginx  --labels=<label_name>=<label_value>,<label_name2>=<label_value2> --dry-run=client -o yaml  ## Adding Labels
+kubectl label pods foo unhealthy=true     // VVIMP adding label 
+kubectl label --overwrite pods foo status=unhealthy   // VVIMP updating label
+# Update pod 'foo' by removing a label named 'bar' if it exists
+# Does not require the --overwrite flag
+kubectl label pods foo bar-   //  VVIMP deleting label
+
+HOW to use explain Commands!!!
 
 kubectl explain pods --recursive | less   ## to browse the detailed yaml syntax of pods 
-
 kubectl explain pods.spec.containers --recursive   // To just get yaml syntax of on section of attribute
-
-
 kubectl explain pods --recursive | grep -A<n> <regexPattern> ##  To print <n> lines after <regexPattern>
 
 
@@ -51,6 +57,15 @@ kubect get pods,svc,...  -o name  // Just prints name
 kubect get pods,svc,...  --all-namespaces
 
 kubectl get all --all-namespaces  ## To get all the resources 
+
+
+How to Use selectors
+
+kubectl get pods --selector <key1>=<value1>,<key2>=<value2>
+kubectl get all --selector env=prod --no-headers  | wc -l
+kubectl get pods --selector env=prod,bu=finance,tier=frontend 
+kubectl get all --selector env=prod
+
 
 
 ## Learn Imperative commands to create Service 
@@ -174,3 +189,15 @@ kubectl-convert   // how to convert older yaml using previous apiVersion to the 
 
 kubectl-convert -f <old_file>.yaml --output-version <new-api-version>  
 kubectl-convert -f <old_file>.yaml --output-version apps/v1
+
+
+HOW TO FIND DETAILS ON KUBE RESOURCES
+-> ApiVersion
+-> Kind 
+-> shortname
+
+kubectl api-resources  // VVIMP COMMAND
+NAME                              SHORTNAMES   APIVERSION                             NAMESPACED   KIND
+bindings                                       v1                                     true         Binding
+componentstatuses                 cs           v1                                     false        ComponentStatus
+configmaps                        cm           v1                                     true         ConfigMap 

@@ -81,7 +81,7 @@ CRONJOBS  // This is FOR PERIODIC Running of Job
 
 BE CAREFULL CRONJOB has 3 spec sections , one for CronJob one for Job and one for Pod
 
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob 
 metadata:
   name: report 
@@ -102,7 +102,7 @@ spec:
 
 kubectl get cronjob ,
 
- Kubectl get pods (gives pods created for a job)
+Kubectl get pods (gives pods created for a job)
 
 How many attempts did it take to complete a Job?
 
