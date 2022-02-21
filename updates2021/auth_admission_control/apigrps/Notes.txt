@@ -1,4 +1,4 @@
-Kube api is grouped into multiple groups like metrics , version , logs 
+Kube api is grouped into multiple groups based on purpose like metrics , version , logs 
 
 api :-  https://<apiserver endpoint>/api/v1/pods .. etc
 health-api :-  https://<apiserver endpoint>/healthz
@@ -28,8 +28,10 @@ apps , networking.k8s.io, storage.k8s.io, rbac.authorization.k8s.io --> these co
 
 Run 'kubectl proxy' before running below commands (it runs at localhost:8001) , it opens a proxy to apiserver using kubeconfig 
 
-curl http://<kube_proxy> -k                      // Gives available api groups                   
+curl http://<kube_proxy> -k                      // Gives available api groups  
+curl http://localhost:8001 -k 
+
 curl http://<kube_proxy>/apis -k | grep "name"   // Gives resource groups
+curl http://localhost:8001/apis -k | grep "name"
 
 Kubectl proxy != kube proxy (it is a k8s networking construct for opening proxy across nodes , services and pods )
-

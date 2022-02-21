@@ -1,0 +1,7 @@
+docker build <DockerFile Absolute Path > -t <imageName>:<tag>  // imageName -> is combination of registry  and Name ( like gauravsingh27/service-catalog:v1 )
+
+docker push <ImageName>:<tag>     // Push it to registry
+
+docker history <imageName>   
+* Gives the layered architecture of image
+* What was the command at each Line of DockerFile

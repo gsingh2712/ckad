@@ -27,20 +27,22 @@ Kubectl describe deployment <deployment_name>  // Gives details on deployment st
 
 ROLLBACK 
 
-kubectl rollout undo deployment/<deployment_name> 
+kubectl rollout undo deployment/<deployment_name>  // undo last change
 
 Commands
-kubectl apply -f deployment-defintion.yaml // updating deployment
 kubectl set image deployment/<deployment_name> <image_old>=<image_new> // Carefull This creates deployment with new config
 kubectl rollout status deployment/<deployment_name>  // Gives status of rollout of the deployment_name
 kubectl rollout history deployment/<deployment_name>
-Kubectl describe deployment <deployment_name>
+kubectl rollout undo deployment/nginx-deployment --to-revision=2 // rollout to some specific revision
+
+
+
 
 // check the  revison concerned, if that revision when
 // was recorded using --record , the below command will give detailed output 
 kubectl rollout history deployment <deployment_name> --revision=1
 
-// We can use the --record flag to save the command used
+// We can use the --record flag to record action taken as change-cause in rollout history
 //  to create/update a deployment against the revision number.
 kubectl set image deployment nginx nginx=nginx:1.17 --record
 kubectl rollout history deployment nginx

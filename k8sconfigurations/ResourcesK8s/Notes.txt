@@ -1,10 +1,10 @@
--> A pod when assigned to a node uses its resources 
--> kubernetes-scheduler assings node to a pod post taking into consideration resource 
+-> A pod when assigned to a node uses its resources
+-> kubernetes-scheduler assings node to a pod post taking into consideration resource
 req of pods and those available on nodes
 
 Default resource requirement for each pod?
 
-For the POD to pick up those defaults you must have first 
+For the POD to pick up those defaults you must have first
 set those as default values for request and limit by creating a LimitRange in that namespace.
 
 

@@ -25,7 +25,7 @@ spec:
              values:
              - Large 
 
-You can multiple values like Medium, Small 
+You can multiple values like Medium, Small
 values
 - Large
 - Medium
@@ -53,8 +53,3 @@ affinity:
 
 required is like compulsory Node Qualification and preferred is like try best fit Node 
 Ignored is like it wont afffect Pods once they are schedduled and lables on Nodes are changed
-
-
-
-
-

@@ -4,20 +4,32 @@ KUBE_EDITOR=vim kubectl edit deploy  <deployment_name>
 
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands  --> 
 To check for imperative commands 
-https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose  Exposing 
-
-https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-image-em- --> set image 
-
-https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run  --> run command 
 
 https://kubernetes.io/docs/tasks/   https://kubernetes.io/docs/concepts/   check following  for revision and browsing so you know where to look for
 
 Kubect create -f .  ## Runs all the yamls in current directory 
-kubectl get all     ## all the objects in Default namespace
-
-Imperatively modify service attached to a deployment
 
 
+
+Kubectl EXEC
+
+Use kubectl exec to execute commands directly 
+kubectl exec -it pod-name -- /bin/sh -c "command(s)" 
+
+kubectl exec -it suitecrm-0 -- /bin/bash -c "ls /"
+
+-------------------------------------------------------------
+
+K8s COMMANDS in YAML
+
+In some cases, you need your command to run in a shell. 
+For example, your command might consist of several commands piped together,
+or it might be a shell script. To run your command in a shell, wrap it like this:
+
+command: ["/bin/sh"]
+args: ["-c", "while true; do echo hello; sleep 10;done"]
+
+--------------------------------------------------------------------
 
 
 kubectl expose deployment smiple-webapp-deployment --name=webapp-service --target-port=8081
@@ -48,7 +60,7 @@ HOW to use explain Commands!!!
 
 kubectl explain pods --recursive | less   ## to browse the detailed yaml syntax of pods 
 kubectl explain pods.spec.containers --recursive   // To just get yaml syntax of on section of attribute
-kubectl explain pods --recursive | grep -A<n> <regexPattern> ##  To print <n> lines after <regexPattern>
+kubectl explain pods --recursive | grep -A<n>/-B<n>/-C<n>  <regexPattern> ##  To print <n> lines after <regexPattern>
 
 
 kubect get pods,svc,...  --all-namespaces
@@ -67,6 +79,28 @@ kubectl get pods --selector env=prod,bu=finance,tier=frontend
 kubectl get all --selector env=prod
 
 
+Kube Security Context
+
+kubectl exec ubuntu-sleeper<pod_name> -i -t  -- whoami  // to check what is user is running containers
+Capablites are only supported at contianer level while securityContext at both spec and container level
+cat ./k8sconfigurations/Kube_SecurityConcepts/Notes
+
+----------------------------------------------------------------------
+
+Read Kubectl exec -h
+  # Get output from running 'date' command from the first pod of the deployment mydeployment, using the first container
+by default
+  kubectl exec deploy/mydeployment -- date
+
+ # Get output from running 'date' command from the first pod of the service myservice, using the first container by
+default
+  kubectl exec svc/myservice -- date
+
+    # Get output from running the 'date' command in ruby-container from pod mypod
+  kubectl exec mypod -c ruby-container -- date
+
+
+---------------------------------------------------------------------------  
 
 ## Learn Imperative commands to create Service 
 kubectl create svc nodeport webapp-service --tcp=8080:8080  --dry-run=client -o yaml > websvc.yml 
@@ -91,7 +125,19 @@ kubectl get deployments,svc  -n <namespace>  ## get all the details for deployme
 kubectl create cm nginx-configuration -n ingress-space ## Imperatively creating configMap 
 
 kubectl create sa nginx-serviceacount -n ingress-space ## Imperatively creating serviceacount 
-kubectl get pods -l <key>=<value>,....  Ex :- kubectl get pods -l name=internal
+kubectl get pods -l <key>=<value>,....  Ex :- kubectl get pods -l name=internal  // -l is shorthand for --selector
+
+---------------------------------------------------------------------------------------------
+Revise jsonpath from here https://kodekloud.com/topic/json-path-use-case-kubernetes/
+JSONPATH Examples:
+
+kubectl get po nginx -o jsonpath='{.spec.containers[].image}{"\n"}' // the {"\n"} is for new line
+
+kubectl get secrets default-token-nvg4d   -o jsonpath='{.data.token}' | base64 -d
+
+kubectl get po -o=custom-columns="POD_NAME:.metadata.name, POD_STATUS:.status.containerStatuses[].state"
+
+--------------------------------------------------------------------------------------------
 
 Get PV -> PVC -> Pod use take PVC as input in Volume and add it to a path of volumeMounts
 
@@ -117,10 +163,10 @@ kubectl run nginx --image=nginx  --restart=OnFailure   --> gives Jobs
 kubectl run nginx --image=nginx  --restart=OnFailure --schedule="*****"  --> gives cronjob
 
 Complex Example
-kubectl run nginx -image=nginx --restart=Never --port=80 --namespace=myname 
---command --serviceaccount=mysa1 --env=HOSTNAME=local --labels=bu=finance,env=dev  
+kubectl run nginx --image=nginx --restart=Never --port=80 --namespace=myname 
+--env=HOSTNAME=local --labels=bu=finance,env=dev  
 --requests='cpu=100m,memory=256Mi' --limits='cpu=200m,memory=512Mi'
---dry-run=client -o yaml - /bin/sh -c 'echo hello world' > generate.yml
+--dry-run=client -o yaml --commands -- /bin/sh -c 'echo hello world' > generate.yml
 
 
 // INGRESS imperative command examples 
@@ -140,7 +186,8 @@ kubectl create ingress simple --rule="foo.com/bar=svc1:8080,tls=my-cert"
  kubectl create ingress ingress1 --class=default \
 --rule="foo.com/path*=svc:8080" \
 --rule="bar.com/admin*=svc2:http"
-
+--annotation="nginx.ingress.kubernetes.io/rewrite-target=/" 
+--annotation="nginx.ingress.kubernetes.io/ssl-redirect=false"
 
 // ALWAYS ADD THESE ANNOTATIONS IN INGRESS YAML
 annotations:
@@ -159,17 +206,88 @@ kubectl set serviceaccount deployment frontend myuser
 kubectl create service clusterip my-cs --tcp=5678:8080 --dry-run -o yaml
 --> 
 
-Authorization Related (Roles and Bindings)
+---------------------------------------------------------------------------------------------------------------------------
+AUTHORIZATION RELATED (Roles and Bindings)
 
-Modes are set using authorization mode option in Kube ApiServer 
+Modes are set using authorization mode option in Kube ApiServer
 --authorization-mode=Node,RBAC,Webhook // SEQUENCE ALSO REFLECTS ORDER OF APPLICATION of MODES
 
-These settings are available in kube-apiserver pods 
+These settings are available in kube-apiserver pods
 
 kubectl describe pod kube-apiserver-controlplane -n kube-system  // Check authorization-mode parameter
-kubectl describe role <role-name>  -n <namespace>  
+kubectl describe role <role-name>  -n <namespace>
 kubectl get rolebindings --all-namespaces --no-headers
 kubectl create role developer --namespace=default --verb=list,create,delete --resource=pods  --dry-run=client -o yaml > role.yaml
+
+kubectl create rolebinding NAME --clusterrole=NAME|--role=NAME [--user=username] [--group=groupname]
+[--serviceaccount=namespace:serviceaccountname] [--dry-run=server|client|none] [options]
+
+
+
+kubectl create role NAME --verb=verb --resource=resource.group/subresource [--resource-name=resourcename]
+[--dry-run=server|client|none] [options]
+
+# Create a role named "foo" with SubResource specified
+kubectl create role foo --verb=get,list,watch --resource=pods,pods/status
+
+# Create a role named "pod-reader" with ResourceName specified
+kubectl create role pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
+  
+
+----- ClusterRole Sample File -----------
+
+apiVersion: rbac.authorization.k8s.io./v1
+kind: ClusterRole
+metadata:
+  name: cluster-administrator
+rule:
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["list", "get" , "create" , "delete"]
+
+kubectl create -f clusterrole.yaml
+
+----- Cluster Role Binding --------
+
+apiVersion: rbac.authorization.k8s.io./v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-admin-role-binding
+subjects:  // Subject can be USER , GROUP OR SERVICEACCOUNT
+- kind: User
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cluster-administrator
+  apiGroup: rbac.authorization.k8s.io
+
+
+CHECK ACCESS (with auth can-i)  VVIMP!!!
+
+kubectl auth can-i create deployments
+yes
+
+kubectl auth can-i delete nodes
+no
+
+
+--as <user_name>  // for impersonating another user as an administrator
+
+kubectl auth can-i create deployments  --as dev-user
+kubectl auth can-i create pods  --as dev-user  --namspace test 
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+How to Making Curl request to  Service from k8s cluster
+2. Run a tmp container with curl command to service url
+
+CURL REQUEST --> curl http://<service name>.<namespace>:<serviceport>
+
+k run tmp --restart=Never --rm --image=nginx:alpine -i -- curl http://project-plt-6cc-svc.pluto:3333
+
+--rm -> is to delete the pod as soon it runs
+
+------
 
 How to  Create tls Secret in a namespace
 
@@ -192,7 +310,7 @@ kubectl-convert -f <old_file>.yaml --output-version apps/v1
 
 
 HOW TO FIND DETAILS ON KUBE RESOURCES
--> ApiVersion
+-> ApiGrpup & ApiVersion
 -> Kind 
 -> shortname
 
@@ -200,4 +318,5 @@ kubectl api-resources  // VVIMP COMMAND
 NAME                              SHORTNAMES   APIVERSION                             NAMESPACED   KIND
 bindings                                       v1                                     true         Binding
 componentstatuses                 cs           v1                                     false        ComponentStatus
-configmaps                        cm           v1                                     true         ConfigMap 
+configmaps                        cm           v1                                     true         ConfigMap
+clusterroles                                   rbac.authorization.k8s.io/v1           true         ClusterRole

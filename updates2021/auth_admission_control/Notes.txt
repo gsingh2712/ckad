@@ -7,7 +7,7 @@ How to cotrol access to api-server
 	-> RBAC (Role)
         -> ABAC (Attribute)
         -> Node Authorization
-        -> Webhook mode
+        -> Webhook mode (Like OPA )
 
 
 

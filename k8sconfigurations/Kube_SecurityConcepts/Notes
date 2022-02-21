@@ -24,6 +24,8 @@ spec:
 
 --------- below  is at container level 
 
+To find  uid with users,groups,admin priviliges type 'id' in terminal 
+
 apiVersion:v1
 kind: Pod
 metadata:
@@ -42,7 +44,7 @@ spec:
 
 
 kubectl exec -it ubuntu-sleeper -- date -s '19 APR 2012 11:14:00'  
-// Set the Pod time to given 
+// Set the Pod time to given date ^^
 // This will only work it container has SYS_TIME capablites Like below example 
 
 

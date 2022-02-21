@@ -12,7 +12,7 @@ echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt
 sudo apt-get update
 sudo apt-get install helm
 
-pkg install helm // pkg utility in RHEL 
+pkg install helm // pkg utility in RHEL
 
 brew install helm // Mac OS
 
@@ -21,7 +21,7 @@ how to find os details
 
 cat /etc/*release*
 
-helm help 
+helm help
 
 helm env  // get Client Platform info
 charts , atrifacthub.io ,
@@ -33,12 +33,12 @@ helm search hub wordpress
 helm repo add bitnami htpps:/charts.bitnami.com/bitnami
 
 helm search repo wordpres // searching wordpress package in the repos
-Name Chart version APP DESCRIPTION
-bitnami/wordpress 12.1.14  5.8.1 Web publishing platform ...
+Name              Chart    version   APP DESCRIPTION
+bitnami/wordpress 12.1.14  5.8.1     Web publishing platform ...
 
 helm repo list
 
-helm install [release-name] [chart-name] 
+helm install [release-name] [chart-name] // command format
 helm install release-1 bitnami/wordpress
 helm install release-2 bitnami/wordpress
 
@@ -48,11 +48,10 @@ my-rel     default         1           ....          deployed   wordpress-11.0.1
 
 helm unsintall my-rel
 
-helm pull --untar bitnami/wordpress  // charts are downloaded in a tar archive format 
+helm pull --untar bitnami/wordpress  // charts are downloaded in a tar archive format
 
 ls wordpress
 Chart.lock    README.md   ci   values.schema.json
 Chart.yaml    charts      templates    values.yaml
 
-helm install release-4 ./wordpress  // path to chart direcotory 
-
+helm install release-4 ./wordpress  // path to chart direcotory
