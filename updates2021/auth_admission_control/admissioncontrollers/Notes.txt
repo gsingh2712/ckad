@@ -5,12 +5,12 @@ Like OPA is webhook/admission controller provides better security checks
 
 Number of admission controllers pre built in k8s
 1. AlwaysPullImages    // images are always pulled when new pod is created
-2. DefaultStorageClass // Check PVC and adds a default DefaultStorageClass in case one not specified 
+2. DefaultStorageClass // Check PVC and adds a default DefaultStorageClass in case one not specified
 3. EventRateLimit      // Limits number of request Api server can handle at a time , to prevent it being flooded from requests.
 4. NamespaceExists     // Rejects request that have reference namespaces that do not exists
 5. NamespaceAutoProvision // Auto creates a namespace if not exists
 
-To VIEW enabled admission controllers by default 
+To VIEW enabled admission controllers by default
 kube-apiserver -h | grep enable-admission-plugins
 
 OR (IN kubeadm based set up)
@@ -19,7 +19,7 @@ kubectl exec kube-apiserver-controlplane -n kube-system -- kube-apiserver -h | g
 
 OR (IN CASE you are in kube control plane )
 
-grep enable-admission-plugins /etc/kubernetes/manifests/kube-apiserver.yaml   
+grep enable-admission-plugins /etc/kubernetes/manifests/kube-apiserver.yaml
 
 OR (IN CASE you are in control plane)
 
@@ -28,8 +28,8 @@ ps -ef | grep kube-apiserver | grep admission   // since kube-apiserver is runni
 
 
 To enable / disable new Admission-Controller  Update kube-apiserver pod in kube-system namespace
--> If you are in kube control plane 
--> Edit /etc/kubernetes/manifests/kube-apiserver.yaml 
+-> If you are in kube control plane
+-> Edit /etc/kubernetes/manifests/kube-apiserver.yaml
 
 
 apiVersion: v1
@@ -51,5 +51,3 @@ spec:
     - --disable-admission-plugins=DefaultStorageClass
 
 NamespaceAutoProvision,NamespaceExists (Deprecated and replaced by NamespaceLifeCyle) //
-
-

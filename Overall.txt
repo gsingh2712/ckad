@@ -1,4 +1,9 @@
 https://www.youtube.com/watch?v=knyJt8d6C_8  --> vim short cuts
+w -> word , b -> back, $ -> end of line, 0 -> beginning of line, :$ -> End of File 
+
+MULTILINE INDENT 
+Multiline indent -> Visual Mode select multiple line and then press (shfit + > ) or (shift + <)
+
 
 KUBE_EDITOR=vim kubectl edit deploy  <deployment_name>
 
@@ -9,13 +14,11 @@ https://kubernetes.io/docs/tasks/   https://kubernetes.io/docs/concepts/   check
 
 Kubect create -f .  ## Runs all the yamls in current directory 
 
-
-
 Kubectl EXEC
 
 Use kubectl exec to execute commands directly 
-kubectl exec -it pod-name -- /bin/sh -c "command(s)" 
 
+kubectl exec -it pod-name -- /bin/sh -c "command(s)" 
 kubectl exec -it suitecrm-0 -- /bin/bash -c "ls /"
 
 -------------------------------------------------------------
@@ -48,7 +51,6 @@ kubectl config set-current --current  --namespace=<name>
 
 Labels
 
-kubectl run nginx --image=nginx  -l <label_name>=<label_value> --dry-run=client -o yaml    ## 
 kubectl run nginx --image=nginx  --labels=<label_name>=<label_value>,<label_name2>=<label_value2> --dry-run=client -o yaml  ## Adding Labels
 kubectl label pods foo unhealthy=true     // VVIMP adding label 
 kubectl label --overwrite pods foo status=unhealthy   // VVIMP updating label
@@ -77,7 +79,6 @@ kubectl get pods --selector <key1>=<value1>,<key2>=<value2>
 kubectl get all --selector env=prod --no-headers  | wc -l
 kubectl get pods --selector env=prod,bu=finance,tier=frontend 
 kubectl get all --selector env=prod
-
 
 Kube Security Context
 
@@ -157,10 +158,15 @@ kubectl config set-context <cluster_name> --namspace=myns
 
 kubect explain cronjob.spec.template --recursive
 
-kubectl run nginx --image=nginx  --> gives deployment
-kubectl run nginx --image=nginx  --restart=Never  --> gives pods
-kubectl run nginx --image=nginx  --restart=OnFailure   --> gives Jobs
-kubectl run nginx --image=nginx  --restart=OnFailure --schedule="*****"  --> gives cronjob
+https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules  --> Cron Job Format
+
+kubectl create cronjob --help
+# Create a cron job
+kubectl create cronjob my-job --image=busybox --schedule="*/1 * * * *"
+# Create a cron job with a command
+kubectl create cronjob my-job --image=busybox --schedule="*/1 * * * *" -- date
+kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' -- [COMMAND] [args...]
+
 
 Complex Example
 kubectl run nginx --image=nginx --restart=Never --port=80 --namespace=myname 
@@ -186,15 +192,13 @@ kubectl create ingress simple --rule="foo.com/bar=svc1:8080,tls=my-cert"
  kubectl create ingress ingress1 --class=default \
 --rule="foo.com/path*=svc:8080" \
 --rule="bar.com/admin*=svc2:http"
---annotation="nginx.ingress.kubernetes.io/rewrite-target=/" 
+--annotation="nginx.ingress.kubernetes.io/rewrite-target=/"
 --annotation="nginx.ingress.kubernetes.io/ssl-redirect=false"
 
 // ALWAYS ADD THESE ANNOTATIONS IN INGRESS YAML
 annotations:
    nginx.ingress.kubernetes.io/rewrite-target: /
    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-
-
 
 
 --> Crearting a deployment
@@ -204,7 +208,7 @@ kubectl expose deployment frontend --type=NodePort --name=frontend-service --por
 ---> setting serviceaccount details for deployment
 kubectl set serviceaccount deployment frontend myuser
 kubectl create service clusterip my-cs --tcp=5678:8080 --dry-run -o yaml
---> 
+-->
 
 ---------------------------------------------------------------------------------------------------------------------------
 AUTHORIZATION RELATED (Roles and Bindings)

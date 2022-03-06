@@ -4,24 +4,24 @@ Core groups -> /api and /apis (name groups)
 
 each apigrp has different versions 
 
-/v1 --> GA stable version  , enabled by default , 
-other versions like 
+/v1 --> GA stable version  , enabled by default
+other versions like
 /v1alpha  ...  , disabled by default , can be dropped in future , may have bugs , for early feedback from experts
 
 /v1beta , next release after v1alpah , well tested , minor bugs , committed to be GA (/v1) , enabled by default 
 
 An Apigrp can support multiple versions at the same time  it can /v1alpha ,  /v1beta , /v1 ....
-   --> Though you may use any or all of them in the cluster, but the storage version can be only one of them 
+   --> Though you may use any or all of them in the cluster, but the storage version can be only one of them
    --> Storage refers to k8s object storage in /etcd
    --> You can create the k8s object with any version but the storage in etcd will always be in one version ex:- 'apps/v1'
 
 
 Enable / Disable a particular version add it to '--runtime-config' parameter of api server utility.
 
---runtime-config=api/all , --> take comma seperated value 
+--runtime-config=api/all , --> take comma seperated value
 
 
 To identify preferred version for any api group
 
 kubectl proxy 8001  // I another terminal
-curl localhost:8001/apis/authorization.k8s.io  
+curl localhost:8001/apis/authorization.k8s.io

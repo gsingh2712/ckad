@@ -1,30 +1,26 @@
-
-
 Format of KubeConfig File
 --> Clusters
    1. diferent Clusters like ProdCluster , Development Cluster
 --> Contexts
    --> Marry Users to Cluster.
    --> Which account is for which user.
---> Users 
+--> Users
     1. User Accounts with which you access these clusters
         --> it could be admin user , dev user or prod user
 
+current-context :- Points to the context
 
-current-context :- Points to the context 
-
-How to change context to use a user with a cluster 
---> HINT there will be a context in config that will map an user to given cluster 
-Ans:- 
+How to change context to use a user with a cluster
+--> HINT there will be a context in config that will map an user to given cluster
+Ans:-
 kubectl config use-context <user>@<cluster>  // This will change the current context to use context with mapping of user and cluster
-
 
 
 KubeConfig File location $HOME/.kube/config
 
 https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
 
-Commands 
+Commands
 
 kubectl config view  // Lists KubeConfig
 kubectl config view --kubeconfig=<path_to_custom_config>> // Update the kube config
@@ -41,7 +37,7 @@ kubectl config --kubeconfig=config-demo set-credentials developer --client-certi
 kubectl config --kubeconfig=config-demo set-credentials experimenter --username=exp --password=some-password
 
 
-Add context details to your configuration file ( config-demo ) : 
+Add context details to your configuration file ( config-demo ) :
 kubectl config --kubeconfig=config-demo set-context dev-frontend --cluster=development --namespace=frontend --user=developer
 kubectl config --kubeconfig=config-demo set-context dev-storage --cluster=development --namespace=storage --user=developer
 kubectl config --kubeconfig=config-demo set-context exp-scratch --cluster=scratch --namespace=default --user=experimenter

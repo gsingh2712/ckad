@@ -1,15 +1,15 @@
 NodePort Service
 Listen to a request on NodePort and Fwd the request to POD
 
-kubectl create service nodeport my-ns --tcp=5678:8080  -o yaml --dry-run=client  
+kubectl create service nodeport my-ns --tcp=5678:8080  -o yaml --dry-run=client
 // In the ^^ yaml generated above dont forget to add nodeport
 
 
-ClusterIp Service 
-A Virtual Ip INSIDE the cluster to enable communication between different services 
+ClusterIp Service
+A Virtual Ip INSIDE the cluster to enable communication between different services
 
 LoadBalancer Service
-Provision a LoadBalancer for  application in SUPPORTED Cloud Providers 
+Provision a LoadBalancer for  application in SUPPORTED Cloud Providers
 
 # Create a new ClusterIP service named my-cs
 kubectl create service clusterip my-cs --tcp=5678:8080
@@ -24,8 +24,6 @@ NODEPORT Service Nuances
                                 and has its own Ip in the cluster , 
                                 this IP is called ClusterIp of the Service 
 4. nodePort --> Port on the Node Valid Range [30000 , 32767]
-
-
 
 
 apiVersion: v1

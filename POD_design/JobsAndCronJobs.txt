@@ -82,7 +82,7 @@ CRONJOBS  // This is FOR PERIODIC Running of Job
 BE CAREFULL CRONJOB has 3 spec sections , one for CronJob one for Job and one for Pod
 
 apiVersion: batch/v1
-kind: CronJob 
+kind: CronJob
 metadata:
   name: report 
 spec:
@@ -100,7 +100,7 @@ spec:
               command: ['expr', '3', '+', '2' ]
           restartPolicy: Never
 
-kubectl get cronjob ,
+kubectl get cronjob 
 
 Kubectl get pods (gives pods created for a job)
 
@@ -112,5 +112,4 @@ kubectl create job <job-name> --image=<image_name> --dry-run=client -o yaml > jo
 
 kubectl create cronjob <name> --image=<image_name> --schedule="30 21 * * *  "  --dry-run=client -o yaml > job.yaml 
 
-watch "kubectl get job " --> to watch the Jobs 
-
+watch "kubectl get job " --> to watch the Jobs

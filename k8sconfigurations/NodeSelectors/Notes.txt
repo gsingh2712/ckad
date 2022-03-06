@@ -1,8 +1,8 @@
-As name suggests you would like to select Nodes 
+As name suggests you would like to select Nodes
 
-Like a  Pod with Heavy requirement is assigned to beefier Nodes 
+Like a  Pod with Heavy requirement is assigned to beefier Nodes
 
-apiVersion: 
+apiVersion:
 kind: Pod
 metadata:
     name: myapp-pod
@@ -11,17 +11,17 @@ spec:
   - name: data-processor
     image: data-processor
   nodeSelector:
-    size: Large 
+    size: Large
 
-Where did this size Come from? key value pairs  (size,Large) are labels assigned to Node 
+Where did this size Come from? key value pairs  (size,Large) are labels assigned to Node
 
 How to add Label Nodes ?
 
 kubectl label nodes <node-name>  <label-key>=<label-val>
-Ex: kubectl label node  node01 size=Large 
+Ex: kubectl label node  node01 size=Large
 
-IMP BELOW 
+IMP BELOW
 nodeSelector Limitations ?
---> We use single label and selector to achieve our goal 
-Like requirement place pod on (Large OR Medium) nodes , or place pods (Not SMALL) this can't be achived via 
+--> We use single label and selector to achieve our goal
+Like requirement place pod on (Large OR Medium) nodes , or place pods (Not SMALL) this can't be achived via
 nodeSelectors

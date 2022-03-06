@@ -1,11 +1,11 @@
-Rollout and Versioning in a deployment 
+Rollout and Versioning in a deployment
 
-When a new Rollout is triggered  a new deployment revision is created as well 
-this helps us keep track of changes to our deployment and helps us rollback to previous 
-version of deployment 
+When a new Rollout is triggered  a new deployment revision is created as well
+this helps us keep track of changes to our deployment and helps us rollback to previous
+version of deployment
 
 To update a deployment :-
-kubectl apply -f deployment-defintion.yaml 
+kubectl apply -f deployment-defintion.yaml
 
 
 kubectl set image deployment/<deployment_name> <container_name>=<image_new> // This creates deployment with new config
@@ -20,7 +20,7 @@ kubectl rollout history deployment/<deployment_name>   // Gives out the revision
 
 There are 2 types of deployment strategies
 1. Recreate strategy --> Not Recommended , complete teardown and the Recreate
-2. Rolling Update --> Default strategy , replica set scaled down and brought up in stages 
+2. Rolling Update --> Default strategy , replica set scaled down and brought up in stages
 
 Kubectl describe deployment <deployment_name>  // Gives details on deployment strategy and events that  happened
 
@@ -30,11 +30,10 @@ ROLLBACK
 kubectl rollout undo deployment/<deployment_name>  // undo last change
 
 Commands
-kubectl set image deployment/<deployment_name> <image_old>=<image_new> // Carefull This creates deployment with new config
+kubectl set image deployment/<deployment_name> <container_name>=<image_new> // Carefull This creates deployment with new config
 kubectl rollout status deployment/<deployment_name>  // Gives status of rollout of the deployment_name
 kubectl rollout history deployment/<deployment_name>
 kubectl rollout undo deployment/nginx-deployment --to-revision=2 // rollout to some specific revision
-
 
 
 

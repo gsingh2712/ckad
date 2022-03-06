@@ -1,4 +1,4 @@
-`vim ~/.vimrc
+vim ~/.vimrc
 set nu
 set ai
 set expandtab
@@ -8,7 +8,7 @@ set tabstop=2
 alias k='kubectl'
 alias kdr='k --dry-run=client -o yaml'
 alias kdf='k delete --grace-period=0 --force'
-alias ka='k apply -f' 
+alias ka='k apply -f'
 alias kwide='k get -o wide '
 alias kdes='k describe '
 
@@ -51,7 +51,7 @@ Month			1-12
 Day of the week		0-6 (Sunday to Saturday)
 
 * */2 * * *    -> Every Two Hr
-* * *  * */3   -> Every Day of the week
+* * *  * */3   -> Every 3rd Day of the week
 * * */7 * *    -> Every 7 Day of the month
 
 @yearly (or @annually)	 Run once a year at midnight of 1 January	                0 0 1 1 *

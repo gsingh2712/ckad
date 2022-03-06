@@ -1,13 +1,13 @@
-Things discussed here 
+Things discussed here
 How to secure cluster by Securing communication between internal components.
 How to secure management access to cluster through authentication & authorization.
 
 Discussion limited here to Admins, Developers and Service Accounts
 
-k8s does not natively (via cli) manage users, it uses ldap / external files / certs 
+k8s does not natively (via cli) manage users, it uses ldap / external files / certs
 api-server authenticates user before processing the request
 There are different authentication mechanisms that can be configured for same.
---> Static Files ( Username / Password Or Token  )
+--> Static Files ( Username / Password Or Token)
 --> Cetificates
 --> Third Party Identity Services
 
@@ -19,9 +19,3 @@ In the Static Files for authentication purpose you can have 4th column describe 
 ....
 
 Service Accounts
-
-
-
-  
-
-

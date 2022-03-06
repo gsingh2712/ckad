@@ -6,14 +6,14 @@ Different Authorization Mechanisms
 -> RBAC (Role)
 -> Webhook
 
-NODE 
+NODE
 It is used for authentication management between internal components of cluster. LIKE between Kublet and Apiserver
 Any request from resources part of 'system:nodes'  group (like kubelet )  will have a name prefix like system:node:<name>
 is Authorised by the NODE AUTHORIZER and are granted Node privileges.
 
 
 Attribute Based Access Control
-External Access to the API 
+External Access to the API
 ABAC is where you associate an user or group of user (like developers) with a set of permissions (like view / create/ delete pods )
 This is done via a policy File ( k8s resource/kind Policy) which is passed to Api Server
 It becomes quite cumbersive as it has to be done for every user / user group that is  added / edited  and Api server had to be restarted
@@ -41,8 +41,5 @@ These settings are available in kube-apiserver pods
 
 kubectl describe pod kube-apiserver-controlplane -n kube-system  // Check authorization-mode
 
-kubectl describe role <role-name>  -n <namespace>
-
-kubectl get rolebindings --all-namespaces --no-headers
 
 kubectl create role developer --namespace=default --verb=list,create,delete --resource=pods  --dry-run=client -o yaml > role.yaml
