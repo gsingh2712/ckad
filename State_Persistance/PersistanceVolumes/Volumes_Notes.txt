@@ -17,6 +17,12 @@ volumeMounts:
 - mountPath: /opt
   name: data-volume
 
+volumeMounts:
+- name: foo
+  mountPath: "/etc/foo"
+  readOnly: true  ## readOnly volume
+
+
 There various ways to configure volumes on the host , the above hostpath
 approach doesn't work in case of multinode cluster, since pods will assume /data path on all nodes to be same
 

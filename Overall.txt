@@ -21,6 +21,11 @@ Use kubectl exec to execute commands directly
 kubectl exec -it pod-name -- /bin/sh -c "command(s)" 
 kubectl exec -it suitecrm-0 -- /bin/bash -c "ls /"
 
+How to get to shell in container
+kubectl exec -it  <pod> --container <container> -- /bin/bash
+
+
+
 -------------------------------------------------------------
 
 K8s COMMANDS in YAML
@@ -52,7 +57,7 @@ kubectl config set-current --current  --namespace=<name>
 Labels
 
 kubectl run nginx --image=nginx  --labels=<label_name>=<label_value>,<label_name2>=<label_value2> --dry-run=client -o yaml  ## Adding Labels
-kubectl label pods foo unhealthy=true     // VVIMP adding label 
+kubectl label pods foo unhealthy=true     // VVIMP adding label
 kubectl label --overwrite pods foo status=unhealthy   // VVIMP updating label
 # Update pod 'foo' by removing a label named 'bar' if it exists
 # Does not require the --overwrite flag

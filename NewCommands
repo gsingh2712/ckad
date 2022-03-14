@@ -1,0 +1,68 @@
+
+https://github.com/cncf/curriculum/blob/master/CKAD_Curriculum_v1.23.pdf
+
+
+How to use set resources!!!
+
+Examples:
+  # Set a deployments nginx container cpu limits to "200m" and memory to "512Mi"
+  kubectl set resources deployment nginx -c=nginx --limits=cpu=200m,memory=512Mi
+  
+  # Set the resource request and limits for all containers in nginx
+  kubectl set resources deployment nginx --limits=cpu=200m,memory=512Mi --requests=cpu=100m,memory=256Mi
+  
+  # Remove the resource requests for resources on containers in nginx  ---> VVIMP!!
+  kubectl set resources deployment nginx --limits=cpu=0,memory=0 --requests=cpu=0,memory=0
+  
+  # Print the result (in yaml format) of updating nginx container limits from a local, without hitting the server
+  kubectl set resources -f path/to/file.yaml --limits=cpu=200m,memory=512Mi --local -o yaml
+
+-------------------------------------------------------------------
+
+k get po -o jsonpath='{range .items[*]}{.status.podIP}{"\t"}{.status.phase}{"\n"}{end}'
+10.1.0.200	  Running
+10.1.0.198	  Running
+192.168.65.4	Running
+192.168.65.4	Running
+192.168.65.4	Running
+
+------------------------------------------------------------------
+
+SAMPLE CONTAINER ENV , VALUEFROM
+
+env:
+- name: MY_NODE_NAME
+  valueFrom:
+     fieldRef:
+       fieldPath: spec.nodeName
+-------------------------------------------------------------------
+
+containers:
+- name: test-container
+  image: k8s.gcr.io/busybox:1.24
+  resources:
+     requests:
+       cpu: "125m"
+  env:
+  - name: MY_CPU_REQUEST
+    valueFrom:
+      resourceFieldRef:
+        containerName: test-container  // Notice contianerName , it tells pick requests.cpu from test-contianer
+        resource: requests.cpu
+------------------------------------------------------------------
+
+Todo:
+
+NetPol
+
+Helm
+
+docker
+
+ServiceAccounts, RBAC
+
+TroubleShooting access to Services
+
+Canary Deployments
+
+Quotas

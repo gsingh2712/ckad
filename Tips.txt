@@ -6,11 +6,10 @@ set shiftwidth=2
 set tabstop=2
 
 alias k='kubectl'
+alias kn='kubectl config set-context --current --namespace'
 alias kdr='k --dry-run=client -o yaml'
 alias kdf='k delete --grace-period=0 --force'
 alias ka='k apply -f'
-alias kwide='k get -o wide '
-alias kdes='k describe '
 
 https://github.com/lucassha/CKAD-resources
 
